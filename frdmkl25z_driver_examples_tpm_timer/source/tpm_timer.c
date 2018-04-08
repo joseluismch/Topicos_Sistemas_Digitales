@@ -29,12 +29,14 @@
  */
 
 #include "fsl_debug_console.h"
-#include "board.h"
-#include "fsl_tpm.h"
-#include "fsl_gpio.h"
 #include "clock_config.h"
-#include "pin_mux.h"
 #include "fsl_adc16.h"
+#include "fsl_gpio.h"
+#include "pin_mux.h"
+#include "fsl_tpm.h"
+#include "board.h"
+
+
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -105,19 +107,19 @@
 #define T_BIT bool
 
 
+
+/*******************************************************************************
+ * Prototypes
+ ******************************************************************************/
 void Cuenta(void);
 void Cuenta_Mode(void);
 void ContadorManual(void);
 void Disp_7_seg(T_SBYTE lsb_Digito);
 void Compare(void);
-void MODE(void);
+void MODOS(void);
 void multiplexing(T_SBYTE rsb_Count_multiplexing);
 void Display(void);
 void ADC(void);
-
-/*******************************************************************************
- * Prototypes
- ******************************************************************************/
 
 /*******************************************************************************
  * Variables
@@ -250,7 +252,7 @@ int main(void)
     {
     	if(GPIO_ReadPinInput(BUTTON_RESET, BUTTON_RESET_PIN)==TRUE)
     	{
-    		MODES();
+    		MODOS();
     	}
     		switch (rsb_Type_Mode)
     		{
@@ -612,7 +614,7 @@ void Disp_7_seg(T_SBYTE lsb_Digito){
 	}
 }
 
-void MODES(void)
+void MODOS(void)
 {
 
 		rsb_SecondCount=0;
