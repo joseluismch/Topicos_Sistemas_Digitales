@@ -89,6 +89,13 @@
 #define BUTTON_SUB BUTON_SUB_1
 #define BUTTON_SUB_PIN BUTON_SUB_PIN1
 
+#define BOARD_LED_RED BOARD_LED_RED_GPIO
+#define BOARD_LED_RED_PIN BOARD_LED_RED_GPIO_PIN
+#define BOARD_LED_GREEN BOARD_LED_GREEN_GPIO
+#define BOARD_LED_GREEN_PIN BOARD_LED_GREEN_GPIO_PIN
+#define BOARD_LED_BLUE BOARD_LED_BLUE_GPIO
+#define BOARD_LED_BLUE_PIN BOARD_LED_BLUE_GPIO_PIN
+
 /* define instance */
 #define BOARD_TPM TPM2
 /* Interrupt number and interrupt handler for the TPM instance used */
@@ -216,8 +223,9 @@ int main(void)
     GPIO_PinInit( DISP_2_ENABLE_GPIO, DISP_2_ENABLE_GPIO_PIN, &led_config);
     GPIO_PinInit( DISP_3_ENABLE_GPIO, DISP_3_ENABLE_GPIO_PIN, &led_config);
     GPIO_PinInit( DISP_MODE_ENABLE_GPIO, DISP_MODE_ENABLE_GPIO_PIN, &led_config);
-
-
+    GPIO_PinInit( BOARD_LED_RED, BOARD_LED_RED_PIN, &led_config);
+    GPIO_PinInit( BOARD_LED_BLUE, BOARD_LED_BLUE_PIN, &led_config);
+    GPIO_PinInit( BOARD_LED_GREEN, BOARD_LED_GREEN_PIN, &led_config);
     GPIO_PinInit( BUTTON_PLUS, BUTTON_PLUS_PIN, &button_config);
     GPIO_PinInit( BUTTON_RESET, BUTTON_RESET_PIN, &button_config);
     GPIO_PinInit( BUTTON_SUB, BUTTON_SUB_PIN, &button_config);
@@ -259,14 +267,20 @@ int main(void)
     		case 0u:
 
     			Cuenta();
+    			 GPIO_ClearPinsOutput(BOARD_LED_RED, 1u << BOARD_LED_RED_PIN);
+    			 GPIO_SetPinsOutput(BOARD_LED_RED, 1u << BOARD_LED_RED_PIN);
     			break;
 
     		case 1u:
 
     			ContadorManual();
+    			GPIO_ClearPinsOutput(BOARD_LED_GREEN, 1u << BOARD_LED_GREEN_PIN);
+    			GPIO_SetPinsOutput(BOARD_LED_GREEN, 1u << BOARD_LED_GREEN_PIN);
     			break;
 
     		default:
+    			GPIO_ClearPinsOutput(BOARD_LED_BLUE, 1u << BOARD_LED_BLUE_PIN);
+    			GPIO_SetPinsOutput(BOARD_LED_BLUE, 1u << BOARD_LED_BLUE_PIN);
     		    ADC16_SetChannelConfig(DEMO_ADC16_BASE, DEMO_ADC16_CHANNEL_GROUP, &adc16ChannelConfigStruct);
     		    while (0U == (kADC16_ChannelConversionDoneFlag &
     		                  ADC16_GetChannelStatusFlags(DEMO_ADC16_BASE, DEMO_ADC16_CHANNEL_GROUP)))
